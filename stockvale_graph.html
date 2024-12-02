@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 98vh;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#D4FCC3", "id": "jake pilkington", "label": "jake pilkington", "shape": "box", "title": "7"}, {"color": "#977D72", "id": "chelsea stoner", "label": "chelsea stoner", "shape": "box", "title": "8"}, {"color": "#D4FCC3", "id": "sam cutting", "label": "sam cutting", "shape": "box", "title": "7"}, {"color": "#E59500", "id": "kimm hawes", "label": "kimm hawes", "shape": "box", "title": "9"}, {"color": "#977D72", "id": "ellie attard", "label": "ellie attard", "shape": "box", "title": "8"}, {"color": "#E59500", "id": "avinaash ganeshalingam", "label": "avinaash ganeshalingam", "shape": "box", "title": "9"}, {"color": "#977D72", "id": "india woolls", "label": "india woolls", "shape": "box", "title": "8"}, {"color": "#977D72", "id": "scarlett smith", "label": "scarlett smith", "shape": "box", "title": "8"}, {"color": "#E59500", "id": "maven street", "label": "maven street", "shape": "box", "title": "9"}, {"color": "#FFF5B2", "id": "kaysie moseley", "label": "kaysie moseley", "shape": "box", "title": "6"}, {"color": "#EDFF86", "id": "connor green", "label": "connor green", "shape": "box", "title": "5"}, {"color": "#977D72", "id": "yasmin brown", "label": "yasmin brown", "shape": "box", "title": "8"}, {"color": "#9BF3F0", "id": "lily pinnock", "label": "lily pinnock", "shape": "box", "title": "10"}, {"color": "#977D72", "id": "grace farrant", "label": "grace farrant", "shape": "box", "title": "8"}, {"color": "#D4FCC3", "id": "oleh umailo", "label": "oleh umailo", "shape": "box", "title": "7"}, {"color": "#9BF3F0", "id": "emily piercy", "label": "emily piercy", "shape": "box", "title": "10"}, {"color": "#DAFFED", "id": "amber temple", "label": "amber temple", "shape": "box", "title": "11"}, {"color": "#EDFF86", "id": "che lucas", "label": "che lucas", "shape": "box", "title": "5"}, {"color": "#9BF3F0", "id": "tarryn brewer", "label": "tarryn brewer", "shape": "box", "title": "10"}, {"color": "#977D72", "id": "amy mann", "label": "amy mann", "shape": "box", "title": "8"}, {"color": "#9BF3F0", "id": "holly blackburn", "label": "holly blackburn", "shape": "box", "title": "10"}, {"color": "#F3C969", "id": "emma dodson", "label": "emma dodson", "shape": "box", "title": "4"}, {"color": "#807099", "id": "jacob groves", "label": "jacob groves", "shape": "box", "title": "3"}, {"color": "#8B91BB", "id": "shannon gray", "label": "shannon gray", "shape": "box", "title": "2"}, {"color": "#FFF5B2", "id": "jasmine somer", "label": "jasmine somer", "shape": "box", "title": "6"}, {"color": "#E59500", "id": "adam sawkins", "label": "adam sawkins", "shape": "box", "title": "9"}, {"color": "#9BF3F0", "id": "gracie collins", "label": "gracie collins", "shape": "box", "title": "10"}, {"color": "#9BB6BF", "id": "ellis tuffrey", "label": "ellis tuffrey", "shape": "box", "title": "1"}, {"color": "#9BF3F0", "id": "emily poulton", "label": "emily poulton", "shape": "box", "title": "10"}, {"color": "#977D72", "id": "beth newell", "label": "beth newell", "shape": "box", "title": "8"}, {"color": "#977D72", "id": "louise gale", "label": "louise gale", "shape": "box", "title": "8"}, {"color": "#E59500", "id": "chris armes", "label": "chris armes", "shape": "box", "title": "9"}, {"color": "#D4FCC3", "id": "theo mckay-cook", "label": "theo mckay-cook", "shape": "box", "title": "7"}, {"color": "#807099", "id": "jordan webb", "label": "jordan webb", "shape": "box", "title": "3"}, {"color": "#977D72", "id": "elise meacham", "label": "elise meacham", "shape": "box", "title": "8"}, {"color": "#E59500", "id": "matt grzechowiak", "label": "matt grzechowiak", "shape": "box", "title": "9"}, {"color": "#977D72", "id": "ellie bostock", "label": "ellie bostock", "shape": "box", "title": "8"}, {"color": "#D4FCC3", "id": "dan watson", "label": "dan watson", "shape": "box", "title": "7"}, {"color": "#E1F5E0", "id": "melissa aylott", "label": "melissa aylott", "shape": "box", "title": "0"}, {"color": "#807099", "id": "mikey gridley", "label": "mikey gridley", "shape": "box", "title": "3"}, {"color": "#977D72", "id": "emily linford", "label": "emily linford", "shape": "box", "title": "8"}, {"color": "#E59500", "id": "ben sadler", "label": "ben sadler", "shape": "box", "title": "9"}, {"color": "#9BF3F0", "id": "rachel link", "label": "rachel link", "shape": "box", "title": "10"}, {"color": "#DAFFED", "id": "rhys tomlin", "label": "rhys tomlin", "shape": "box", "title": "11"}, {"color": "#E59500", "id": "will ellis", "label": "will ellis", "shape": "box", "title": "9"}, {"color": "#9BF3F0", "id": "sophie watkins", "label": "sophie watkins", "shape": "box", "title": "10"}, {"color": "#E59500", "id": "harry saunders", "label": "harry saunders", "shape": "box", "title": "9"}, {"color": "#9BF3F0", "id": "sophie carter", "label": "sophie carter", "shape": "box", "title": "10"}, {"color": "#9BF3F0", "id": "sam fogg", "label": "sam fogg", "shape": "box", "title": "10"}, {"color": "#DAFFED", "id": "cameron daykin-woodberry", "label": "cameron daykin-woodberry", "shape": "box", "title": "11"}, {"color": "#ADFC92", "id": "halimat khalif", "label": "halimat khalif", "shape": "box", "title": "12"}, {"color": "#977D72", "id": "izzy pollitt", "label": "izzy pollitt", "shape": "box", "title": "8"}, {"color": "#FFF5B2", "id": "tilly trigg", "label": "tilly trigg", "shape": "box", "title": "6"}, {"color": "#D4FCC3", "id": "nathan wilson", "label": "nathan wilson", "shape": "box", "title": "7"}, {"color": "#E59500", "id": "ryan williams", "label": "ryan williams", "shape": "box", "title": "9"}, {"color": "#ADFC92", "id": "emily blunden", "label": "emily blunden", "shape": "box", "title": "12"}, {"color": "#E59500", "id": "ollie golding", "label": "ollie golding", "shape": "box", "title": "9"}, {"color": "#F3C969", "id": "sophie brewer", "label": "sophie brewer", "shape": "box", "title": "4"}, {"color": "#FFF5B2", "id": "abbie pert", "label": "abbie pert", "shape": "box", "title": "6"}, {"color": "#D4FCC3", "id": "damian parzelski", "label": "damian parzelski", "shape": "box", "title": "7"}, {"color": "#9BF3F0", "id": "alice ranson", "label": "alice ranson", "shape": "box", "title": "10"}, {"color": "#DAFFED", "id": "ishaan bhardwaj", "label": "ishaan bhardwaj", "shape": "box", "title": "11"}, {"color": "#9BF3F0", "id": "maisie tooley", "label": "maisie tooley", "shape": "box", "title": "10"}, {"color": "#9BF3F0", "id": "kaci galae", "label": "kaci galae", "shape": "box", "title": "10"}, {"color": "#8B91BB", "id": "hannah miller", "label": "hannah miller", "shape": "box", "title": "2"}, {"color": "#E59500", "id": "nathan kirk", "label": "nathan kirk", "shape": "box", "title": "9"}, {"color": "#EDFF86", "id": "frankie fone", "label": "frankie fone", "shape": "box", "title": "5"}, {"color": "#9BF3F0", "id": "ana duranza", "label": "ana duranza", "shape": "box", "title": "10"}, {"color": "#8B91BB", "id": "georgia poulton", "label": "georgia poulton", "shape": "box", "title": "2"}, {"color": "#8B91BB", "id": "klaudia kloc", "label": "klaudia kloc", "shape": "box", "title": "2"}, {"color": "#DAFFED", "id": "george baxter", "label": "george baxter", "shape": "box", "title": "11"}, {"color": "#E59500", "id": "tristan topley", "label": "tristan topley", "shape": "box", "title": "9"}, {"color": "#9BF3F0", "id": "grace stubbs", "label": "grace stubbs", "shape": "box", "title": "10"}, {"color": "#F16F55", "id": "james miller", "label": "james miller", "shape": "box", "title": "centre"}, {"color": "#FFF5B2", "id": "soda lo", "label": "soda lo", "shape": "box", "title": "6"}, {"color": "#ADFC92", "id": "eden yexley", "label": "eden yexley", "shape": "box", "title": "12"}, {"color": "#9BF3F0", "id": "liv ewing", "label": "liv ewing", "shape": "box", "title": "10"}, {"color": "#DAFFED", "id": "tahnee blyth", "label": "tahnee blyth", "shape": "box", "title": "11"}, {"color": "#ADFC92", "id": "emma packer", "label": "emma packer", "shape": "box", "title": "12"}, {"color": "#ADFC92", "id": "evie keenan", "label": "evie keenan", "shape": "box", "title": "12"}, {"color": "#AD8350", "id": "freddie coxell", "label": "freddie coxell", "shape": "box", "title": "13"}]);
+                  edges = new vis.DataSet([{"from": "jake pilkington", "to": "izzy pollitt"}, {"from": "jake pilkington", "to": "elise meacham"}, {"from": "jake pilkington", "to": "india woolls"}, {"from": "jake pilkington", "to": "chelsea stoner"}, {"from": "chelsea stoner", "to": "adam sawkins"}, {"from": "sam cutting", "to": "yasmin brown"}, {"from": "jake pilkington", "to": "yasmin brown"}, {"from": "kimm hawes", "to": "yasmin brown"}, {"from": "ellie attard", "to": "adam sawkins"}, {"from": "avinaash ganeshalingam", "to": "ellie attard"}, {"from": "india woolls", "to": "maven street"}, {"from": "india woolls", "to": "sam cutting"}, {"from": "scarlett smith", "to": "adam sawkins"}, {"from": "scarlett smith", "to": "kimm hawes"}, {"from": "maven street", "to": "sam fogg"}, {"from": "maven street", "to": "holly blackburn"}, {"from": "kaysie moseley", "to": "sam cutting"}, {"from": "kaysie moseley", "to": "jake pilkington"}, {"from": "kaysie moseley", "to": "connor green"}, {"from": "connor green", "to": "tilly trigg"}, {"from": "kaysie moseley", "to": "oleh umailo"}, {"from": "kaysie moseley", "to": "nathan wilson"}, {"from": "yasmin brown", "to": "ryan williams"}, {"from": "lily pinnock", "to": "ryan williams"}, {"from": "jake pilkington", "to": "ellie bostock"}, {"from": "grace farrant", "to": "sam cutting"}, {"from": "oleh umailo", "to": "scarlett smith"}, {"from": "kimm hawes", "to": "emily piercy"}, {"from": "emily piercy", "to": "amber temple"}, {"from": "amber temple", "to": "emily blunden"}, {"from": "che lucas", "to": "emma dodson"}, {"from": "tarryn brewer", "to": "kimm hawes"}, {"from": "amy mann", "to": "jake pilkington"}, {"from": "grace farrant", "to": "ollie golding"}, {"from": "holly blackburn", "to": "adam sawkins"}, {"from": "emma dodson", "to": "jacob groves"}, {"from": "maven street", "to": "emily linford"}, {"from": "maven street", "to": "gracie collins"}, {"from": "jacob groves", "to": "shannon gray"}, {"from": "shannon gray", "to": "mikey gridley"}, {"from": "connor green", "to": "sophie brewer"}, {"from": "connor green", "to": "jasmine somer"}, {"from": "connor green", "to": "abbie pert"}, {"from": "jasmine somer", "to": "sam cutting"}, {"from": "jasmine somer", "to": "damian parzelski"}, {"from": "sam cutting", "to": "chelsea stoner"}, {"from": "adam sawkins", "to": "alice ranson"}, {"from": "gracie collins", "to": "ishaan bhardwaj"}, {"from": "adam sawkins", "to": "maisie tooley"}, {"from": "adam sawkins", "to": "kaci galae"}, {"from": "ellis tuffrey", "to": "hannah miller"}, {"from": "jacob groves", "to": "hannah miller"}, {"from": "emily poulton", "to": "harry saunders"}, {"from": "grace farrant", "to": "nathan kirk"}, {"from": "emma dodson", "to": "frankie fone"}, {"from": "beth newell", "to": "sam cutting"}, {"from": "ellie attard", "to": "sam cutting"}, {"from": "louise gale", "to": "damian parzelski"}, {"from": "chris armes", "to": "ana duranza"}, {"from": "ellis tuffrey", "to": "georgia poulton"}, {"from": "ellis tuffrey", "to": "klaudia kloc"}, {"from": "sam cutting", "to": "abbie pert"}, {"from": "theo mckay-cook", "to": "abbie pert"}, {"from": "sam cutting", "to": "louise gale"}, {"from": "jordan webb", "to": "sophie brewer"}, {"from": "elise meacham", "to": "sam cutting"}, {"from": "holly blackburn", "to": "george baxter"}, {"from": "india woolls", "to": "tristan topley"}, {"from": "matt grzechowiak", "to": "grace stubbs"}, {"from": "matt grzechowiak", "to": "yasmin brown"}, {"from": "ellie bostock", "to": "dan watson"}, {"from": "dan watson", "to": "kaysie moseley"}, {"from": "jordan webb", "to": "hannah miller"}, {"from": "ellis tuffrey", "to": "melissa aylott"}, {"from": "melissa aylott", "to": "james miller"}, {"from": "connor green", "to": "soda lo"}, {"from": "mikey gridley", "to": "emma dodson"}, {"from": "shannon gray", "to": "ellis tuffrey"}, {"from": "emily linford", "to": "oleh umailo"}, {"from": "emily linford", "to": "will ellis"}, {"from": "emily linford", "to": "ben sadler"}, {"from": "ben sadler", "to": "rachel link"}, {"from": "rachel link", "to": "rhys tomlin"}, {"from": "rhys tomlin", "to": "eden yexley"}, {"from": "will ellis", "to": "sophie watkins"}, {"from": "sophie watkins", "to": "rhys tomlin"}, {"from": "chris armes", "to": "yasmin brown"}, {"from": "harry saunders", "to": "emily linford"}, {"from": "harry saunders", "to": "liv ewing"}, {"from": "adam sawkins", "to": "sophie carter"}, {"from": "sophie carter", "to": "tahnee blyth"}, {"from": "sam fogg", "to": "cameron daykin-woodberry"}, {"from": "cameron daykin-woodberry", "to": "emma packer"}, {"from": "cameron daykin-woodberry", "to": "evie keenan"}, {"from": "cameron daykin-woodberry", "to": "halimat khalif"}, {"from": "halimat khalif", "to": "freddie coxell"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
